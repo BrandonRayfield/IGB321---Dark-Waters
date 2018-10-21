@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
     NavMeshAgent agent;
     public Camera camera;
     public Vector3 moveTo;
+    public bool canMove;
 
     public float health = 100.0f;
 
@@ -18,10 +19,10 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
         agent = GetComponent<NavMeshAgent>();
-
         moveTo = transform.position;
+
+        canMove = true;
 	}
 	
 	// Update is called once per frame
@@ -40,13 +41,14 @@ public class Player : MonoBehaviour {
 
     //Basic Movement Controls - Move to cursor position
     void PlayerMovement() {
+        if (canMove) {
+            RaycastHit hit;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-        RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hit)) {
-            if(hit.transform.tag == "Ground") {
-                moveTo = hit.point;
+            if (Physics.Raycast(ray, out hit)) {
+                if (hit.transform.tag == "Ground") {
+                    moveTo = hit.point;
+                }
             }
         }
     }
@@ -82,10 +84,12 @@ public class Player : MonoBehaviour {
 
     public void takeDamage(float damage) {
 
-        health -= damage;
+        if(canMove) {
+            health -= damage;
 
-        if (health <= 0) {
-            Destroy(this.gameObject);
+            if (health <= 0) {
+                Destroy(this.gameObject);
+            }
         }
     }
 
@@ -96,4 +100,9 @@ public class Player : MonoBehaviour {
             StartCoroutine(GameManager.instance.LoadLevel(GameManager.instance.nextLevel));
         }
     }
+
+    public void SetCanMove(bool newMovement) {
+        canMove = newMovement;
+    }
+
 }

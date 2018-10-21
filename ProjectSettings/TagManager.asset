@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
+  - Goal
+  - GameManager
+  - Environment
+  - Enemy
+  - RoomLight
   layers:
   - Default
   - TransparentFX

@@ -9,7 +9,7 @@ public class Light_Control : MonoBehaviour {
     public bool stillDark;
     public int dimSpeed = 5;
 
-    private float maxIntensity = 0.5f;
+    private float maxIntensity = 1.0f;
     private float minIntensity = 0.0f;
     public float currentIntensity;
 
