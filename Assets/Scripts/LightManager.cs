@@ -12,7 +12,7 @@ public class LightManager : MonoBehaviour {
     public float dimSpeed = 5;
 
     // Private Variables
-    private GameObject[] roomLightObjects;
+    public GameObject[] roomLightObjects;
     private float maxIntensity = 1.0f;
     private float minIntensity = 0.0f;
     private float currentIntensity;
@@ -81,7 +81,7 @@ public class LightManager : MonoBehaviour {
         foreach (GameObject myLight in roomLightObjects) {
             myLight.SetActive(false);
             //Instantiate(disableSound, myLight.transform.position, myLight.transform.rotation);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 }

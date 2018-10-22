@@ -7,6 +7,8 @@ public class EscapePodTrigger : MonoBehaviour {
     [Header("Main Objects")]
     public GameObject submarineObject;
     private Animator subAnimator;
+    public GameObject doorObject;
+    private Animator doorAnimator;
     public Camera cameraObject;
 
     private bool hasTriggered;
@@ -20,6 +22,7 @@ public class EscapePodTrigger : MonoBehaviour {
         lm = gm.GetComponent<LightManager>();
 
         subAnimator = submarineObject.GetComponent<Animator>();
+        doorAnimator = doorObject.GetComponent<Animator>();
 
         try {
             cameraObject = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -38,6 +41,7 @@ public class EscapePodTrigger : MonoBehaviour {
     private void triggerEvent() {
         if(submarineObject != null && !hasTriggered) {
             subAnimator.Play("Launch");
+            doorAnimator.Play("Open");
             cameraObject.GetComponent<IsometricCamera>().SetCameraTarget(submarineObject);
             hasTriggered = true;
         }
@@ -66,7 +70,7 @@ public class EscapePodTrigger : MonoBehaviour {
     private IEnumerator PowerOut() {
         yield return new WaitForSeconds(1);
         lm.MakeDark();
-        lm.DisableRoomLights();
+        lm.DisableLights();
         StartCoroutine(NextLevel());
         Debug.Log("Power is Off");
     }
