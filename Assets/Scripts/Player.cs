@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 public class Player : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour {
     public Camera camera;
     public Vector3 moveTo;
     public bool canMove;
+    public bool canShoot;
 
     public float health = 100.0f;
 
@@ -16,6 +18,8 @@ public class Player : MonoBehaviour {
     private float fireTimer;
     private float fireTime = 0.5f;
     public GameObject fireLocation;
+
+    private GameObject[] gunObjects;
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +37,7 @@ public class Player : MonoBehaviour {
             PlayerMovement();
 
         //Basic Player Weapon - Right Mouse Button
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && canShoot)
             FireProjectile();
 
         agent.SetDestination(moveTo);
@@ -98,6 +102,15 @@ public class Player : MonoBehaviour {
         if(other.tag == "Goal") {
             GameManager.instance.levelComplete = true;
             StartCoroutine(GameManager.instance.LoadLevel(GameManager.instance.nextLevel));
+        }
+
+        if(other.tag == "Gun") {
+            canShoot = true;
+            gunObjects = GameObject.FindGameObjectsWithTag("Gun").OrderBy(go => go.name).ToArray();
+
+            foreach (GameObject gun in gunObjects) {
+                Destroy(gun);
+            }
         }
     }
 

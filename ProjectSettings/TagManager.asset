@@ -10,6 +10,7 @@ TagManager:
   - Environment
   - Enemy
   - RoomLight
+  - Gun
   layers:
   - Default
   - TransparentFX
