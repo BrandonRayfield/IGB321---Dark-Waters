@@ -74,12 +74,16 @@ public class LightManager : MonoBehaviour {
     }
 
     public void DisableLights() {
-        StartCoroutine(DisableRoomLights());
+        StartCoroutine(DisableRoomLights(false));
     }
 
-    public IEnumerator DisableRoomLights() {
+    public void ActivateLights() {
+        StartCoroutine(DisableRoomLights(true));
+    }
+
+    public IEnumerator DisableRoomLights(bool newState) {
         foreach (GameObject myLight in roomLightObjects) {
-            myLight.SetActive(false);
+            myLight.SetActive(newState);
             //Instantiate(disableSound, myLight.transform.position, myLight.transform.rotation);
             yield return new WaitForSeconds(0.2f);
         }

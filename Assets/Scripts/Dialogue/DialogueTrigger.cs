@@ -36,6 +36,9 @@ public class DialogueTrigger : MonoBehaviour {
     private bool hasTriggered;
     private bool autoComplete;
 
+    [Header("Event Tags")]
+    public bool isLightSwitch;
+
     //UI Elements
     [Header("UI Variables")]
     public Text interactText;
@@ -144,6 +147,7 @@ public class DialogueTrigger : MonoBehaviour {
         if (other.gameObject.tag == "Player") {
             FindObjectOfType<DialogueManager>().setCurrentNpcID(NpcID);
             FindObjectOfType<DialogueManager>().setIsAutomatic(isAutomatic);
+            FindObjectOfType<DialogueManager>().setIsPowerTrigger(isLightSwitch);
             canTalk = true;
 
             if (isAutomatic && !hasTriggered) {

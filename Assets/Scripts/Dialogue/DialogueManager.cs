@@ -27,17 +27,18 @@ public class DialogueManager : MonoBehaviour {
     private bool isAutomatic;
     private bool autoComplete;
 
-    // Boss Cutscene Variables
-    private bool isBossScene;
-    private bool bossComplete;
+    //Trigger Variables
+    private bool isLightSwitch;
 
     // GameManager Object for quests
     private GameManager gameManager;
+    private LightManager lightManager;
 
     // Use this for initialization
     void Start() {
 
         gameManager = FindObjectOfType<GameManager>();
+        lightManager = gameManager.gameObject.GetComponent<LightManager>();
 
         sentences = new Queue<Dialogue>();
         finishedTalking = true;
@@ -53,10 +54,6 @@ public class DialogueManager : MonoBehaviour {
         isTalking = true;
         if (isAutomatic) {
             autoComplete = false;
-        }
-
-        if (isBossScene) {
-            bossComplete = false;
         }
 
         animator.SetBool("IsOpen", true);
@@ -76,8 +73,9 @@ public class DialogueManager : MonoBehaviour {
                 autoComplete = true;
             }
 
-            if (isBossScene) {
-                bossComplete = true;
+            if (isLightSwitch) {
+                lightManager.ActivateLights();
+                lightManager.TurnOnLights();
             }
 
             EndDialogue();
@@ -156,14 +154,9 @@ public class DialogueManager : MonoBehaviour {
         return autoComplete;
     }
 
-    //--------------------------------------------------------------------------------------
-    // Boss Functions
-    public void setIsBoss(bool boss) {
-        isBossScene = boss;
-    }
 
-    public bool getIsBossComplete() {
-        return bossComplete;
+    public void setIsPowerTrigger(bool lightSwitch) {
+        isLightSwitch = lightSwitch;
     }
 
 }
