@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour {
     //When projectile hits enemy, tell enemy object to respawn and then destroy projectile
     void OnTriggerEnter(Collider otherObject) {
 
-        if (otherObject.tag == "Enemy") { 
+        if (otherObject.tag == "Enemy" || otherObject.tag == "SpawnedEnemy") { 
             otherObject.GetComponent<Enemy>().takeDamage(damage);
             Destroy(this.gameObject);
         }
