@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -19,6 +20,15 @@ public class Player : MonoBehaviour {
     private float fireTime = 0.5f;
     public GameObject fireLocation;
 
+    [Header("Torch Variables")]
+    public GameObject torchObject;
+    public bool torchEnabled;
+    public float maxTorchPower = 3.0f;
+    public float minTorchPower = 0.7f;
+    public float currentTorchPower;
+    private float torchDimRate = 0.1f;
+    public Slider powerBar;
+
     private GameObject[] gunObjects;
 
 	// Use this for initialization
@@ -27,13 +37,46 @@ public class Player : MonoBehaviour {
         moveTo = transform.position;
 
         canMove = true;
-	}
+
+        currentTorchPower = maxTorchPower;
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
+        powerBar.value = currentTorchPower - minTorchPower;
+        torchObject.GetComponent<Light>().intensity = currentTorchPower;
+
+        if (Input.GetKeyDown(KeyCode.F)) {
+            if (torchEnabled) {
+                ActivateTorch(false);
+            } else {
+                ActivateTorch(true);
+                if(currentTorchPower >= minTorchPower) {
+                    currentTorchPower -= 0.1f;
+                }
+            }
+
+        }
+
+        if(torchEnabled) {
+            if(currentTorchPower >= minTorchPower) {
+                currentTorchPower -= Time.deltaTime * torchDimRate;
+            }
+        } else {
+            if (currentTorchPower <= maxTorchPower) {
+                currentTorchPower += Time.deltaTime * torchDimRate;
+            }
+        }
+
+        if (torchEnabled) {
+            torchObject.SetActive(true);
+        } else {
+            torchObject.SetActive(false);
+        }
+
         //Basic Player Movement - Left Mouse Button on Environment
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
             PlayerMovement();
 
         //Basic Player Weapon - Right Mouse Button
@@ -116,6 +159,10 @@ public class Player : MonoBehaviour {
 
     public void SetCanMove(bool newMovement) {
         canMove = newMovement;
+    }
+
+    public void ActivateTorch(bool isOn) {
+        torchEnabled = isOn;
     }
 
 }
