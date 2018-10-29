@@ -42,4 +42,9 @@ public class EnemySpawner : MonoBehaviour {
         currentSpawnTime = 0;
         hasSpawned = false;
     }
+
+    public void SetIsActive(bool currentActive) {
+        isActive = currentActive;
+    }
+
 }

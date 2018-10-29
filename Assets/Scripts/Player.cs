@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour {
     public bool canShoot;
 
     public float health = 100.0f;
+    private bool dead;
 
     public GameObject projectile;
     private float fireTimer;
@@ -29,6 +31,9 @@ public class Player : MonoBehaviour {
     private float torchDimRate = 0.1f;
     public Slider powerBar;
 
+    [Header("Explosion Prefab")]
+    public GameObject explosionObject;
+
     private GameObject[] gunObjects;
 
 	// Use this for initialization
@@ -43,6 +48,10 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if(dead) {
+            StartCoroutine(Restart());
+        }
 
         powerBar.value = currentTorchPower - minTorchPower;
         torchObject.GetComponent<Light>().intensity = currentTorchPower;
@@ -135,9 +144,17 @@ public class Player : MonoBehaviour {
             health -= damage;
 
             if (health <= 0) {
-                Destroy(this.gameObject);
+                gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+                canMove = false;
+                //Instantiate(explosionObject, transform.position, transform.rotation);
+                dead = true;
             }
         }
+    }
+
+    private IEnumerator Restart() {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void OnTriggerEnter(Collider other) {
