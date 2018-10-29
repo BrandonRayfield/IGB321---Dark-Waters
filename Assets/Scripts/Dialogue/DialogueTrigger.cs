@@ -38,6 +38,7 @@ public class DialogueTrigger : MonoBehaviour {
 
     [Header("Event Tags")]
     public bool isLightSwitch;
+    public GameObject doorTrigger;
 
     //UI Elements
     [Header("UI Variables")]
@@ -148,6 +149,7 @@ public class DialogueTrigger : MonoBehaviour {
             FindObjectOfType<DialogueManager>().setCurrentNpcID(NpcID);
             FindObjectOfType<DialogueManager>().setIsAutomatic(isAutomatic);
             FindObjectOfType<DialogueManager>().setIsPowerTrigger(isLightSwitch);
+            FindObjectOfType<DialogueManager>().setDoorObject(doorTrigger);
             canTalk = true;
 
             if (isAutomatic && !hasTriggered) {

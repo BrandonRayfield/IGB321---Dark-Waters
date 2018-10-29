@@ -71,14 +71,9 @@ public class EscapePodTrigger : MonoBehaviour {
         yield return new WaitForSeconds(1);
         lm.MakeDark();
         lm.DisableLights();
-        StartCoroutine(NextLevel());
+        GameManager.instance.levelComplete = true;
+        StartCoroutine(GameManager.instance.LoadLevel(GameManager.instance.nextLevel));
         Debug.Log("Power is Off");
-    }
-
-    private IEnumerator NextLevel() {
-        yield return new WaitForSeconds(6);
-        //gm.LoadLevel(gm.nextLevel);
-        Debug.Log("Loaded Next Level");
     }
 
 }

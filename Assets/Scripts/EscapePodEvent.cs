@@ -34,7 +34,7 @@ public class EscapePodEvent : MonoBehaviour {
 	}
 
     public void DestroyPod() {
-        //Instantiate(explosionObject, transform.position, transform.rotation);
+        Instantiate(explosionObject, transform.position, transform.rotation);
         Debug.Log("Boom!");
         triggerObject.GetComponent<EscapePodTrigger>().TriggerNextStage();
         gameObject.SetActive(false);

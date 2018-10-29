@@ -7,6 +7,7 @@ public class DoorTrigger : MonoBehaviour {
     [Header("Door Variables")]
     public Animator doorAnimator;
     public bool isNoPower;
+    public bool isLocked;
 
     // Animation Names
     const string doorStartClosed = "doorStartClosed";
@@ -38,14 +39,14 @@ public class DoorTrigger : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.tag == "Player" && !isNoPower) {
+        if(other.gameObject.tag == "Player" && !isNoPower && !isLocked) {
             doorAnimator.Play(doorOpening);
         }
     }
 
 
     private void OnTriggerExit(Collider other) {
-        if(other.gameObject.tag == "Player" && !isNoPower) {
+        if(other.gameObject.tag == "Player" && !isNoPower && !isLocked) {
             doorAnimator.Play(doorClosing);
         }
     }
