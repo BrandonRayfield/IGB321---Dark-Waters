@@ -29,6 +29,7 @@ public class DialogueManager : MonoBehaviour {
 
     //Trigger Variables
     private bool isLightSwitch;
+    private GameObject doorTrigger;
 
     // GameManager Object for quests
     private GameManager gameManager;
@@ -76,6 +77,8 @@ public class DialogueManager : MonoBehaviour {
             if (isLightSwitch) {
                 lightManager.ActivateLights();
                 lightManager.TurnOnLights();
+                doorTrigger.SetActive(true);
+                doorTrigger.GetComponent<BlastDoorTrigger>().SetHasPower(true);
             }
 
             EndDialogue();
@@ -157,6 +160,10 @@ public class DialogueManager : MonoBehaviour {
 
     public void setIsPowerTrigger(bool lightSwitch) {
         isLightSwitch = lightSwitch;
+    }
+
+    public void setDoorObject(GameObject targetDoorObject) {
+        doorTrigger = targetDoorObject;
     }
 
 }
